@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User, Session } from "@supabase/supabase-js";
+import type { AuthError } from "@supabase/auth-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -7,9 +8,9 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, nome?: string) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
+  signUp: (email: string, password: string, nome?: string) => Promise<{ error: AuthError | null }>;
+  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signInWithGoogle: () => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -70,13 +71,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       return { error };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Erro no cadastro",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
-      return { error };
+      return { error: err as AuthError };
     }
   };
 
@@ -96,13 +98,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       return { error };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Erro no login",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
-      return { error };
+      return { error: err as AuthError };
     }
   };
 
@@ -126,13 +129,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       return { error };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Erro no login com Google",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
-      return { error };
+      return { error: err as AuthError };
     }
   };
 
@@ -151,10 +155,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: "Você foi desconectado com sucesso.",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Erro ao sair",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
     }
