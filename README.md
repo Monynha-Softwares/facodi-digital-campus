@@ -1,12 +1,10 @@
 # FACODI – Faculdade Comunitária Digital
 
-FACODI Digital Campus centraliza planos curriculares e materiais de apoio de cursos superiores, promovendo uma comunidade colaborativa de aprendizagem gratuita.
-
-[![CI](https://github.com/Moninhay/facodi-digital-campus/actions/workflows/ci.yml/badge.svg)](https://github.com/Moninhay/facodi-digital-campus/actions/workflows/ci.yml)
+[![CI](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
+[![Vercel](https://vercel.com/button)](https://vercel.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[![Vercel](https://vercel.com/button)](https://vercel.com/)
-
+FACODI Digital Campus centraliza planos curriculares e materiais de apoio de cursos superiores, promovendo uma comunidade colaborativa de aprendizagem gratuita.
 
 ## Sumário
 - [Visão Geral](#visão-geral)
