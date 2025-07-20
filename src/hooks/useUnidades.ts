@@ -143,3 +143,26 @@ export const useProgressoUnidade = () => {
     },
   });
 };
+
+export interface ProgressoItem {
+  conteudo_id: string;
+  concluido: boolean | null;
+}
+
+export const useProgresso = (unidadeId: string) => {
+  return useQuery({
+    queryKey: ['progresso', unidadeId],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from('progresso')
+        .select('conteudo_id, concluido')
+        .eq('unidade_id', unidadeId)
+        .eq('user_id', user?.id);
+
+      if (error) throw error;
+      return data as ProgressoItem[];
+    },
+    enabled: !!unidadeId,
+  });
+};
