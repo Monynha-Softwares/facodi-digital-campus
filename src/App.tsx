@@ -9,6 +9,8 @@ import { Header } from "@/components/Header";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Cursos from "./pages/Cursos";
+import CursoDetalhe from "./pages/CursoDetalhe";
+import Unidade from "./pages/Unidade";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +27,15 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/cursos" element={<Cursos />} />
+            <Route path="/curso/:id" element={<CursoDetalhe />} />
+            <Route
+              path="/unidade/:id"
+              element={
+                <ProtectedRoute>
+                  <Unidade />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/unidades" element={
               <ProtectedRoute>
                 <div className="container mx-auto py-8">
