@@ -4,6 +4,12 @@
 
 **URL**: https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be
 
+### Novos recursos
+
+- Hooks `useCurso` e `useUnidade` para obter dados individuais do Supabase.
+- Páginas `/curso/:id` e `/unidade/:id` exibindo detalhes e conteúdos.
+- Componentes `UnitCard` e `ContentAccordion` para organização de unidades e conteúdos.
+
 ## How can I edit this code?
 
 There are several ways of editing your application.
@@ -59,6 +65,42 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+## External dependencies and licenses
+
+This project relies on several open source libraries. Key dependencies and their licenses include:
+
+- [React](https://github.com/facebook/react/blob/main/LICENSE) – MIT License
+- [Vite](https://github.com/vitejs/vite/blob/main/LICENSE) – MIT License
+- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss/blob/master/LICENSE) – MIT License
+- [shadcn-ui](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md) – MIT License
+- [Supabase JS](https://github.com/supabase/supabase-js/blob/master/LICENSE) – MIT License
+- [Radix UI](https://github.com/radix-ui/primitives/blob/main/LICENSE) – MIT License
+- [React Router](https://github.com/remix-run/react-router/blob/main/LICENSE.md) – MIT License
+- [TanStack Query](https://github.com/TanStack/query/blob/main/LICENSE) – MIT License
+- [Zod](https://github.com/colinhacks/zod/blob/master/LICENSE) – MIT License
+- [Lucide](https://github.com/lucide-icons/lucide/blob/main/LICENSE) – ISC License
+
+All other dependencies are distributed under their respective open-source licenses.
+
+## Database setup
+
+1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli):
+   ```sh
+   npm install -g supabase
+   ```
+2. Apply migrations from the `supabase` folder:
+   ```sh
+   supabase db reset --linked
+   ```
+   or
+   ```sh
+   supabase db push
+   ```
+3. Seed the database with initial UAlg data:
+   ```sh
+   supabase db execute < supabase/seed.sql
+   ```
 
 ## How can I deploy this project?
 
