@@ -19,6 +19,14 @@ FACODI Digital Campus centraliza planos curriculares e materiais de apoio de cur
 ## Visão Geral
 O projeto oferece catálogo de cursos, unidades curriculares e conteúdos selecionados. Usuários podem se inscrever em cursos, acompanhar progresso e interagir por comentários.
 
+Principais páginas disponíveis:
+
+- **Cursos** – lista e busca de cursos oferecidos.
+- **Unidades** – catálogo filtrável de unidades curriculares.
+- **Comunidade** – feed de comentários mais recentes.
+- **Repositório** – materiais enviados pela comunidade para download.
+- **Perfil** – área pessoal com cursos inscritos e progresso.
+
 ## Stack e Arquitetura
 - **Frontend:** React + Vite + TypeScript
 - **Estilo:** Tailwind CSS e shadcn-ui
