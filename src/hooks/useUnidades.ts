@@ -166,3 +166,25 @@ export const useProgresso = (unidadeId: string) => {
     enabled: !!unidadeId,
   });
 };
+export const useConcluirUnidade = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ unidadeId, conteudoIds }: { unidadeId: string; conteudoIds: string[] }) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+      const rows = conteudoIds.map(id => ({
+        unidade_id: unidadeId,
+        conteudo_id: id,
+        user_id: user.id,
+        concluido: true,
+        data_conclusao: new Date().toISOString(),
+      }));
+      const { error } = await supabase.from('progresso').upsert(rows);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['progresso'] });
+      queryClient.invalidateQueries({ queryKey: ['unidade'] });
+    },
+  });
+};

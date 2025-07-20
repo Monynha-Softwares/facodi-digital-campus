@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { useUnidade, useProgressoUnidade, useProgresso } from "@/hooks/useUnidades";
+import { useUnidade, useProgressoUnidade, useProgresso , useConcluirUnidade } from "@/hooks/useUnidades";
 import { useComentarios, useCriarComentario } from "@/hooks/useComentarios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ export default function UnidadeDetalhe() {
   const criarComentario = useCriarComentario();
   const [texto, setTexto] = useState("");
 
+  const concluir = useConcluirUnidade();
   const progressoMap = new Map(
     (progresso || []).map((p) => [p.conteudo_id, p.concluido])
   );
@@ -29,6 +30,11 @@ export default function UnidadeDetalhe() {
       conteudoId,
       concluido: value,
     });
+  };
+  const concluirUnidade = () => {
+    if (!id || !unidade?.unidades_conteudos) return;
+    const ids = unidade.unidades_conteudos.map((u) => u.conteudos.id);
+    concluir.mutate({ unidadeId: id, conteudoIds: ids });
   };
 
   const enviarComentario = () => {
@@ -70,6 +76,7 @@ export default function UnidadeDetalhe() {
             {unidade.descricao && (
               <p className="text-muted-foreground">{unidade.descricao}</p>
             )}
+            <Button onClick={concluirUnidade}>Concluir Unidade</Button>
           </div>
 
           {unidade.unidades_conteudos && (

@@ -5,6 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import Unidades from "./pages/Unidades";
+import Comunidade from "./pages/Comunidade";
+import Repositorio from "./pages/Repositorio";
+import Perfil from "./pages/Perfil";
 import { Header } from "@/components/Header";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
@@ -36,38 +40,10 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route path="/unidades" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Unidades Curriculares</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/comunidade" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Comunidade</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/repositorio" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Repositório</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/perfil" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Perfil</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
+            <Route path="/unidades" element={<ProtectedRoute><Unidades /></ProtectedRoute>} />
+            <Route path="/comunidade" element={<ProtectedRoute><Comunidade /></ProtectedRoute>} />
+            <Route path="/repositorio" element={<ProtectedRoute><Repositorio /></ProtectedRoute>} />
+            <Route path="/perfil" element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
