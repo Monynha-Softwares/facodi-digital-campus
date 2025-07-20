@@ -66,6 +66,25 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Database setup
+
+1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli):
+   ```sh
+   npm install -g supabase
+   ```
+2. Apply migrations from the `supabase` folder:
+   ```sh
+   supabase db reset --linked
+   ```
+   or
+   ```sh
+   supabase db push
+   ```
+3. Seed the database with initial UAlg data:
+   ```sh
+   supabase db execute < supabase/seed.sql
+   ```
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and click on Share -> Publish.
