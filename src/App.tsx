@@ -11,6 +11,10 @@ import Auth from "./pages/Auth";
 import Cursos from "./pages/Cursos";
 import CursoDetalhe from "./pages/CursoDetalhe";
 import UnidadeDetalhe from "./pages/UnidadeDetalhe";
+import Unidades from "./pages/Unidades";
+import Comunidade from "./pages/Comunidade";
+import Repositorio from "./pages/Repositorio";
+import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,38 +40,38 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route path="/unidades" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Unidades Curriculares</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/comunidade" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Comunidade</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/repositorio" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Repositório</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
-            <Route path="/perfil" element={
-              <ProtectedRoute>
-                <div className="container mx-auto py-8">
-                  <h1 className="text-3xl font-bold">Perfil</h1>
-                  <p className="text-muted-foreground mt-2">Em desenvolvimento...</p>
-                </div>
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/unidades"
+              element={
+                <ProtectedRoute>
+                  <Unidades />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/comunidade"
+              element={
+                <ProtectedRoute>
+                  <Comunidade />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/repositorio"
+              element={
+                <ProtectedRoute>
+                  <Repositorio />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/perfil"
+              element={
+                <ProtectedRoute>
+                  <Perfil />
+                </ProtectedRoute>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
