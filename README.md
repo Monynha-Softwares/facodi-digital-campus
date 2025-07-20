@@ -1,125 +1,71 @@
-# Welcome to your Lovable project
+# FACODI – Faculdade Comunitária Digital
+
 [![CI](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
+[![Vercel](https://vercel.com/button)](https://vercel.com/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## Project goals
+FACODI Digital Campus centraliza planos curriculares e materiais de apoio de cursos superiores, promovendo uma comunidade colaborativa de aprendizagem gratuita.
 
-FACODI Digital Campus centraliza planos curriculares de cursos superiores e
-facilita a troca de conhecimento entre estudantes por meio de uma comunidade
-colaborativa alimentada com conteúdos gratuitos da internet.
+## Sumário
+- [Visão Geral](#visão-geral)
+- [Stack e Arquitetura](#stack-e-arquitetura)
+- [Instalação Local](#instalação-local)
+- [Scripts npm](#scripts-npm)
+- [Testes e CI/CD](#testes-e-cicd)
+- [Deploy na Vercel](#deploy-na-vercel)
+- [Como Contribuir](#como-contribuir)
+- [Licença](#licença)
 
-## Project info
+## Visão Geral
+O projeto oferece catálogo de cursos, unidades curriculares e conteúdos selecionados. Usuários podem se inscrever em cursos, acompanhar progresso e interagir por comentários.
 
-**URL**: https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be
+## Stack e Arquitetura
+- **Frontend:** React + Vite + TypeScript
+- **Estilo:** Tailwind CSS e shadcn-ui
+- **Dados e Autenticação:** Supabase
+- **Gerenciamento de estado:** TanStack Query
 
-### Novos recursos
+Arquitetura simplificada:
 
-- Hooks adicionais como `useConteudos`, `useRepositorios` e `useTags`.
-- Páginas de listagem de unidades, comunidade, repositório e perfil do usuário.
-- Testes com Vitest e workflow de CI para lint e testes.
-
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) 20 or later
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-- [Supabase CLI](https://supabase.com/docs/guides/cli) for local development
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-Make sure you have Node.js and npm installed - we recommend using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm install
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```mermaid
+flowchart LR
+    A[React App] -- Supabase JS --> B[(Supabase Auth)]
+    A -- REST/Realtime --> C[(Supabase DB)]
 ```
 
-### Useful commands
+Detalhes adicionais estão em [docs/architecture.md](./docs/architecture.md).
 
-- `npm run lint` – run ESLint over the project
-- `npm test` – execute unit tests with Vitest
-- `npm run build` – create a production build in `dist/`
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## External dependencies and licenses
-
-This project relies on several open source libraries. Key dependencies and their licenses include:
-
-- [React](https://github.com/facebook/react/blob/main/LICENSE) – MIT License
-- [Vite](https://github.com/vitejs/vite/blob/main/LICENSE) – MIT License
-- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss/blob/master/LICENSE) – MIT License
-- [shadcn-ui](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md) – MIT License
-- [Supabase JS](https://github.com/supabase/supabase-js/blob/master/LICENSE) – MIT License
-- [Radix UI](https://github.com/radix-ui/primitives/blob/main/LICENSE) – MIT License
-- [React Router](https://github.com/remix-run/react-router/blob/main/LICENSE.md) – MIT License
-- [TanStack Query](https://github.com/TanStack/query/blob/main/LICENSE) – MIT License
-- [Zod](https://github.com/colinhacks/zod/blob/master/LICENSE) – MIT License
-- [Lucide](https://github.com/lucide-icons/lucide/blob/main/LICENSE) – ISC License
-
-All other dependencies are distributed under their respective open-source licenses.
-
-## Database setup
-
-1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli):
+## Instalação Local
+1. Instale [Node.js](https://nodejs.org/) 20+ e [npm](https://www.npmjs.com/).
+2. Instale o [Supabase CLI](https://supabase.com/docs/guides/cli):
    ```sh
    npm install -g supabase
    ```
-2. Apply migrations from the `supabase` folder:
+3. Clone o repositório e instale dependências:
+   ```sh
+   git clone <repo-url>
+   cd facodi-digital-campus
+   npm install
+   ```
+4. Copie `.env.example` para `.env` e preencha com as chaves do seu projeto Supabase.
+5. Aplique as migrações e rode o seed inicial:
    ```sh
    supabase db reset --linked
+   npm run seed
    ```
-   or
+6. Inicie o ambiente de desenvolvimento:
    ```sh
-   supabase db push
+   npm run dev
    ```
-3. Seed the database with initial UAlg data:
-   ```sh
-   supabase db execute < supabase/seed.sql
-   ```
+
+## Scripts npm
+- `npm run dev` – servidor de desenvolvimento
+- `npm run build` – build de produção em `dist/`
+- `npm run build:dev` – build no modo development
+- `npm run preview` – pré-visualização do build
+- `npm run lint` – análise estática com ESLint
+- `npm test` – testes unitários com Vitest
+- `npm run seed` – popula o banco com dados de exemplo
 
 ### Environment variables
 
@@ -144,12 +90,18 @@ First create a production build:
 npm run build
 ```
 
-The generated `dist/` directory can be deployed to any static host such as Vercel or Netlify. If you're using Lovable, open [your project](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and click Share -> Publish.
+## Testes e CI/CD
+Os testes podem ser executados localmente com `npm test`. Cada pull request dispara o workflow [CI](.github/workflows/ci.yml) que roda lint e testes automaticamente no GitHub Actions.
 
-## Can I connect a custom domain to my Lovable project?
+## Deploy na Vercel
+Crie um build de produção e faça deploy do diretório `dist/` na [Vercel](https://vercel.com/). É possível conectar um domínio personalizado pelo painel da plataforma.
 
-Yes, you can!
+## Como Contribuir
+1. Fork este repositório e crie um branch para sua feature ou correção.
+2. Instale as dependências e siga as instruções de instalação.
+3. Abra um pull request descrevendo suas mudanças.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Contribuições são bem-vindas! Confira também a documentação em [docs/api-hooks.md](./docs/api-hooks.md) e [docs/database-schema.md](./docs/database-schema.md).
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Licença
+Este projeto está licenciado sob os termos da [Licença MIT](LICENSE).
