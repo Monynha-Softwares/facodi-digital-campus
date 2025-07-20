@@ -248,67 +248,80 @@ CREATE TRIGGER update_repositorios_updated_at
   EXECUTE FUNCTION public.update_updated_at_column();
 
 -- Inserir dados de exemplo da UAlg
-INSERT INTO public.universidades (nome, sigla, cidade, website) VALUES 
-('Universidade do Algarve', 'UAlg', 'Faro', 'https://www.ualg.pt');
+INSERT INTO public.universidades (nome, sigla, cidade, website)
+VALUES ('Universidade do Algarve', 'UAlg', 'Faro', 'https://www.ualg.pt')
+ON CONFLICT DO NOTHING;
 
 -- Inserir curso de Engenharia de Sistemas
-INSERT INTO public.cursos (universidade_id, nome, descricao, duracao_semestres, ects_total) 
-SELECT id, 'Engenharia de Sistemas e Tecnologias Informáticas', 
-'Curso focado no desenvolvimento de sistemas de informação e tecnologias emergentes', 
-6, 180 
-FROM public.universidades WHERE sigla = 'UAlg';
+INSERT INTO public.cursos (universidade_id, nome, descricao, duracao_semestres, ects_total)
+SELECT id,
+  'Engenharia de Sistemas e Tecnologias Informáticas',
+  'Curso focado no desenvolvimento de sistemas de informação e tecnologias emergentes',
+  6,
+  180
+FROM public.universidades
+WHERE sigla = 'UAlg'
+ON CONFLICT DO NOTHING;
 
 -- Inserir tags populares
-INSERT INTO public.tags (nome, cor) VALUES 
-('Programação', '#3B82F6'),
-('Sistemas Operativos', '#10B981'),
-('Bases de Dados', '#F59E0B'),
-('Redes', '#EF4444'),
-('Algoritmos', '#8B5CF6'),
-('Web Development', '#06B6D4'),
-('Inteligência Artificial', '#F97316'),
-('Cibersegurança', '#EC4899');
+INSERT INTO public.tags (nome, cor) VALUES
+  ('Programação', '#3B82F6'),
+  ('Sistemas Operativos', '#10B981'),
+  ('Bases de Dados', '#F59E0B'),
+  ('Redes', '#EF4444'),
+  ('Algoritmos', '#8B5CF6'),
+  ('Web Development', '#06B6D4'),
+  ('Inteligência Artificial', '#F97316'),
+  ('Cibersegurança', '#EC4899')
+ON CONFLICT (nome) DO NOTHING;
 
 -- Inserir unidades curriculares do 1º ano
-INSERT INTO public.unidades_curriculares (nome, descricao, ects, semestre, ano_curricular) VALUES 
-('Programação I', 'Introdução à programação com Python', 6, 1, 1),
-('Matemática Discreta', 'Fundamentos matemáticos para informática', 6, 1, 1),
-('Introdução aos Sistemas de Informação', 'Conceitos básicos de sistemas de informação', 6, 1, 1),
-('Programação II', 'Programação orientada a objetos', 6, 2, 1),
-('Estruturas de Dados', 'Algoritmos e estruturas de dados fundamentais', 6, 2, 1),
-('Bases de Dados I', 'Modelação e consulta de bases de dados', 6, 2, 1);
+INSERT INTO public.unidades_curriculares (nome, descricao, ects, semestre, ano_curricular) VALUES
+  ('Programação I', 'Introdução à programação com Python', 6, 1, 1),
+  ('Matemática Discreta', 'Fundamentos matemáticos para informática', 6, 1, 1),
+  ('Introdução aos Sistemas de Informação', 'Conceitos básicos de sistemas de informação', 6, 1, 1),
+  ('Programação II', 'Programação orientada a objetos', 6, 2, 1),
+  ('Estruturas de Dados', 'Algoritmos e estruturas de dados fundamentais', 6, 2, 1),
+  ('Bases de Dados I', 'Modelação e consulta de bases de dados', 6, 2, 1)
+ON CONFLICT DO NOTHING;
 
 -- Associar unidades ao curso
 INSERT INTO public.cursos_unidades (curso_id, unidade_id, obrigatoria)
 SELECT c.id, u.id, true
 FROM public.cursos c, public.unidades_curriculares u
-WHERE c.nome = 'Engenharia de Sistemas e Tecnologias Informáticas';
+WHERE c.nome = 'Engenharia de Sistemas e Tecnologias Informáticas'
+ON CONFLICT (curso_id, unidade_id) DO NOTHING;
 
 -- Inserir conteúdos de exemplo
-INSERT INTO public.conteudos (titulo, descricao, tipo, url, duracao_minutos) VALUES 
+INSERT INTO public.conteudos (titulo, descricao, tipo, url, duracao_minutos) VALUES
 ('Python para Iniciantes', 'Tutorial completo de Python', 'video', 'https://www.youtube.com/watch?v=example1', 120),
 ('Algoritmos de Ordenação', 'Explicação dos principais algoritmos', 'artigo', 'https://example.com/algoritmos', 45),
 ('Projeto: Sistema de Gestão', 'Desenvolvimento de um sistema simples', 'projeto', null, 300),
-('Exercícios de Programação', 'Lista de exercícios práticos', 'exercicio', null, 60);
+('Exercícios de Programação', 'Lista de exercícios práticos', 'exercicio', null, 60)
+ON CONFLICT DO NOTHING;
 
 -- Associar conteúdos às unidades
 INSERT INTO public.unidades_conteudos (unidade_id, conteudo_id, ordem)
 SELECT u.id, c.id, 1
 FROM public.unidades_curriculares u, public.conteudos c
-WHERE u.nome = 'Programação I' AND c.titulo = 'Python para Iniciantes';
+WHERE u.nome = 'Programação I' AND c.titulo = 'Python para Iniciantes'
+ON CONFLICT (unidade_id, conteudo_id) DO NOTHING;
 
 INSERT INTO public.unidades_conteudos (unidade_id, conteudo_id, ordem)
 SELECT u.id, c.id, 2
 FROM public.unidades_curriculares u, public.conteudos c
-WHERE u.nome = 'Estruturas de Dados' AND c.titulo = 'Algoritmos de Ordenação';
+WHERE u.nome = 'Estruturas de Dados' AND c.titulo = 'Algoritmos de Ordenação'
+ON CONFLICT (unidade_id, conteudo_id) DO NOTHING;
 
 -- Associar tags aos conteúdos
 INSERT INTO public.conteudos_tags (conteudo_id, tag_id)
 SELECT c.id, t.id
 FROM public.conteudos c, public.tags t
-WHERE c.titulo = 'Python para Iniciantes' AND t.nome = 'Programação';
+WHERE c.titulo = 'Python para Iniciantes' AND t.nome = 'Programação'
+ON CONFLICT (conteudo_id, tag_id) DO NOTHING;
 
 INSERT INTO public.conteudos_tags (conteudo_id, tag_id)
 SELECT c.id, t.id
 FROM public.conteudos c, public.tags t
-WHERE c.titulo = 'Algoritmos de Ordenação' AND t.nome = 'Algoritmos';
+WHERE c.titulo = 'Algoritmos de Ordenação' AND t.nome = 'Algoritmos'
+ON CONFLICT (conteudo_id, tag_id) DO NOTHING;
