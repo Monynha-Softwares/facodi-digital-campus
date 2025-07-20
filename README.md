@@ -1,115 +1,124 @@
-# Welcome to your Lovable project
+# FACODI – Faculdade Comunitária Digital
 
-## Project info
+Uma plataforma **100 % gratuita** que organiza planos curriculares de cursos superiores usando conteúdo aberto (YouTube, PDFs, exercícios, repositórios públicos).
+Qualquer pessoa pode “concluir” um curso de forma autônoma enquanto monitora seu progresso e colabora com a comunidade.
 
-**URL**: https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be
+---
 
-### Novos recursos
+## ✨ Principais funcionalidades
 
-- Hooks `useCurso` e `useUnidade` para obter dados individuais do Supabase.
-- Páginas `/curso/:id` e `/unidade/:id` exibindo detalhes e conteúdos.
-- Componentes `UnitCard` e `ContentAccordion` para organização de unidades e conteúdos.
+| Módulo                      | Descrição                                                           |
+| --------------------------- | ------------------------------------------------------------------- |
+| **Autenticação**            | Login por Google ou e-mail (Supabase Auth)                          |
+| **Catálogo de cursos**      | Lista de universidades e cursos com filtros por área/ECTS           |
+| **Unidades curriculares**   | Sílabo, conteúdos recomendados, comentários e marcação de conclusão |
+| **Progresso**               | Barra de conclusão por curso/unidade + painel no perfil             |
+| **Repositório comunitário** | Upload/ download de materiais (Supabase Storage)                    |
+| **Comunidade**              | Feed global de comentários, likes e tags                            |
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🛠 Stack
 
-**Use Lovable**
+| Camada             | Tecnologia                            |
+| ------------------ | ------------------------------------- |
+| **Frontend**       | React 18 (Vite + TypeScript)          |
+| **UI/UX**          | TailwindCSS + shadcn/ui               |
+| **Estado & Cache** | TanStack Query                        |
+| **Auth & DB**      | Supabase (PostgreSQL + Storage)       |
+| **Hospedagem**     | Vercel                                |
+| **Testes**         | Vitest + React Testing Library        |
+| **CI**             | GitHub Actions                        |
+| **Lint/Format**    | ESLint + Prettier + Husky/lint-staged |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## ⚡ Instalação local
 
-**Use your preferred IDE**
+```bash
+# 1. Clone o repositório
+git clone https://github.com/Moninhay/facodi-digital-campus.git
+cd facodi-digital-campus
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# 2. Instale dependências
+npm install     # ou pnpm install / yarn
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# 3. Configure variáveis de ambiente
+cp .env.example .env.local
+# edite .env.local com suas chaves Supabase
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Rode em modo desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+> A aplicação abre em [http://localhost:5173](http://localhost:5173)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🔐 Variáveis de ambiente
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Chave                    | Descrição                          |
+| ------------------------ | ---------------------------------- |
+| `VITE_SUPABASE_URL`      | URL do projeto Supabase            |
+| `VITE_SUPABASE_ANON_KEY` | API anon key do Supabase           |
+| `VITE_SUPABASE_STORAGE`  | (opcional) bucket para repositório |
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 🗄️ Configuração do Supabase
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Crie um novo projeto** em [https://supabase.com](https://supabase.com).
+2. **Execute o script `supabase/schema.sql`** (migra todas as 15 tabelas, enums, triggers e policies RLS).
+3. **Popule dados de exemplo** rodando `supabase/seed.sql` *(Universidade do Algarve → Engenharia de Sistemas e Tecnologias Informáticas)*.
+4. Crie um **bucket Storage** chamado `materiais` para uploads da comunidade.
 
-## External dependencies and licenses
+---
 
-This project relies on several open source libraries. Key dependencies and their licenses include:
+## 👀 Scripts NPM úteis
 
-- [React](https://github.com/facebook/react/blob/main/LICENSE) – MIT License
-- [Vite](https://github.com/vitejs/vite/blob/main/LICENSE) – MIT License
-- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss/blob/master/LICENSE) – MIT License
-- [shadcn-ui](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md) – MIT License
-- [Supabase JS](https://github.com/supabase/supabase-js/blob/master/LICENSE) – MIT License
-- [Radix UI](https://github.com/radix-ui/primitives/blob/main/LICENSE) – MIT License
-- [React Router](https://github.com/remix-run/react-router/blob/main/LICENSE.md) – MIT License
-- [TanStack Query](https://github.com/TanStack/query/blob/main/LICENSE) – MIT License
-- [Zod](https://github.com/colinhacks/zod/blob/master/LICENSE) – MIT License
-- [Lucide](https://github.com/lucide-icons/lucide/blob/main/LICENSE) – ISC License
+| Comando    | Ação                      |
+| ---------- | ------------------------- |
+| `dev`      | inicia Vite em modo dev   |
+| `build`    | gera bundle de produção   |
+| `preview`  | pré-visualiza build local |
+| `lint`     | eslint + formatter        |
+| `test`     | roda Vitest               |
+| `coverage` | abre relatório de testes  |
 
-All other dependencies are distributed under their respective open-source licenses.
+---
 
-## Database setup
+## 🚀 Deploy
 
-1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli):
-   ```sh
-   npm install -g supabase
-   ```
-2. Apply migrations from the `supabase` folder:
-   ```sh
-   supabase db reset --linked
-   ```
-   or
-   ```sh
-   supabase db push
-   ```
-3. Seed the database with initial UAlg data:
-   ```sh
-   supabase db execute < supabase/seed.sql
-   ```
+> **Recomendado:** Vercel
 
-## How can I deploy this project?
+1. Conecte seu repositório no painel Vercel.
+2. Adicione as variáveis de ambiente acima em *Settings → Environment Variables*.
+3. Clique em **Deploy**. A Vercel detecta Vite e cria o pipeline automático.
 
-Simply open [Lovable](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 🧪 Qualidade & CI
 
-Yes, you can!
+* **GitHub Actions** executa `lint`, `test` e `build` a cada PR.
+* **Vitest** cobre hooks críticos (`useAuth`, `useCursos`, etc.).
+* Lighthouse ≥ 90 em performance e acessibilidade (lazy-load de rotas e imagens).
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto.
+2. Crie uma branch (`git checkout -b feature/minha-feature`).
+3. Commit suas mudanças (`git commit -m 'feat: minha feature'`).
+4. Push para o fork (`git push origin feature/minha-feature`).
+5. Abra um **Pull Request**.
+
+---
+
+## 📄 Licença
+
+Distribuído sob licença **MIT**. Veja `LICENSE` para mais informações.
+
+---
+
+> **FACODI** © 2025 – Uma iniciativa de educação aberta. Sinta-se livre para usar, estudar, copiar e compartilhar ❤️
