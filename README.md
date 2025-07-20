@@ -67,6 +67,29 @@ Detalhes adicionais estão em [docs/architecture.md](./docs/architecture.md).
 - `npm test` – testes unitários com Vitest
 - `npm run seed` – popula o banco com dados de exemplo
 
+### Environment variables
+
+Copy `.env.example` to `.env.local` and update the values with your Supabase project credentials:
+
+```sh
+cp .env.example .env.local
+# then edit .env.local
+```
+
+`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are used in `src/integrations/supabase/client.ts` to connect the frontend with your Supabase instance.
+
+## Continuous integration
+
+This repository includes a GitHub Actions workflow at `.github/workflows/ci.yml` that runs linting and unit tests on every pull request.
+
+## How can I deploy this project?
+
+First create a production build:
+
+```sh
+npm run build
+```
+
 ## Testes e CI/CD
 Os testes podem ser executados localmente com `npm test`. Cada pull request dispara o workflow [CI](.github/workflows/ci.yml) que roda lint e testes automaticamente no GitHub Actions.
 
