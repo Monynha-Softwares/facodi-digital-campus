@@ -5,6 +5,13 @@ import { UnitCard, TagChip } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function Unidades() {
   const [search, setSearch] = useState('');
@@ -38,16 +45,20 @@ export default function Unidades() {
           onChange={e => setSearch(e.target.value)}
         />
         {tags && (
-          <select
-            className="border rounded p-2"
+          <Select
             value={tag || ''}
-            onChange={e => setTag(e.target.value || undefined)}
+            onValueChange={value => setTag(value || undefined)}
           >
-            <option value="">Todas as tags</option>
-            {tags.map(t => (
-              <option key={t.id} value={t.nome}>{t.nome}</option>
-            ))}
-          </select>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Todas as tags" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Todas as tags</SelectItem>
+              {tags.map(t => (
+                <SelectItem key={t.id} value={t.nome}>{t.nome}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )}
       </div>
       {isLoading ? (
