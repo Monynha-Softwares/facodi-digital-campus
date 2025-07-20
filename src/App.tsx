@@ -10,7 +10,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Cursos from "./pages/Cursos";
 import CursoDetalhe from "./pages/CursoDetalhe";
-import Unidade from "./pages/Unidade";
+import UnidadeDetalhe from "./pages/UnidadeDetalhe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,7 +32,7 @@ const App = () => (
               path="/unidade/:id"
               element={
                 <ProtectedRoute>
-                  <Unidade />
+                  <UnidadeDetalhe />
                 </ProtectedRoute>
               }
             />
