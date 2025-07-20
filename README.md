@@ -13,9 +13,9 @@ colaborativa alimentada com conteúdos gratuitos da internet.
 
 ### Novos recursos
 
-- Hooks `useCurso` e `useUnidade` para obter dados individuais do Supabase.
-- Páginas `/curso/:id` e `/unidade/:id` exibindo detalhes e conteúdos.
-- Componentes `UnitCard` e `ContentAccordion` para organização de unidades e conteúdos.
+- Hooks adicionais como `useConteudos`, `useRepositorios` e `useTags`.
+- Páginas de listagem de unidades, comunidade, repositório e perfil do usuário.
+- Testes com Vitest e workflow de CI para lint e testes.
 
 ## Prerequisites
 
@@ -123,11 +123,11 @@ All other dependencies are distributed under their respective open-source licens
 
 ### Environment variables
 
-Copy `.env.example` to `.env` and update the values with your Supabase project credentials:
+Copy `.env.example` to `.env.local` and update the values with your Supabase project credentials:
 
 ```sh
-cp .env.example .env
-# then edit .env
+cp .env.example .env.local
+# then edit .env.local
 ```
 
 `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are used in `src/integrations/supabase/client.ts` to connect the frontend with your Supabase instance.
