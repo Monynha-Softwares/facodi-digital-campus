@@ -15,10 +15,15 @@ import { supabase } from '../integrations/supabase/client';
 const queryClient = new QueryClient();
 
 // Mock supabase
-// Mock implementation typing is not relevant for the test
+interface SupabaseFromMock {
+  select: () => {
+    order: () => Promise<{ data: unknown[]; error: null }>;
+  };
+}
+
 vi.spyOn(supabase, 'from').mockReturnValue({
   select: () => ({ order: () => Promise.resolve({ data: [], error: null }) })
-} as unknown as { select: () => { order: () => Promise<{ data: unknown[]; error: null }> } });
+} as unknown as SupabaseFromMock);
 
 describe('useCursos', () => {
   afterEach(() => {
