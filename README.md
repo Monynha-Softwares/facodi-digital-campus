@@ -4,6 +4,12 @@
 
 **URL**: https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be
 
+### Novos recursos
+
+- Hooks `useCurso` e `useUnidade` para obter dados individuais do Supabase.
+- Páginas `/curso/:id` e `/unidade/:id` exibindo detalhes e conteúdos.
+- Componentes `UnitCard` e `ContentAccordion` para organização de unidades e conteúdos.
+
 ## How can I edit this code?
 
 There are several ways of editing your application.
