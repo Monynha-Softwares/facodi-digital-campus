@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { UserMenu } from "./UserMenu";
 import { GraduationCap, Menu } from "lucide-react";
@@ -10,36 +17,26 @@ export function Header() {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
+  const links = [
+    { to: "/cursos", label: "Cursos" },
+    { to: "/unidades", label: "Unidades" },
+    { to: "/comunidade", label: "Comunidade" },
+    { to: "/repositorio", label: "Repositório" },
+  ];
+
   const NavLinks = () => (
     <>
-      <Link
-        to="/cursos"
-        className="text-sm font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
-        Cursos
-      </Link>
-      <Link
-        to="/unidades"
-        className="text-sm font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
-        Unidades
-      </Link>
-      <Link
-        to="/comunidade"
-        className="text-sm font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
-        Comunidade
-      </Link>
-      <Link
-        to="/repositorio"
-        className="text-sm font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
-        Repositório
-      </Link>
+      {links.map((link) => (
+        <NavigationMenuItem key={link.to}>
+          <NavigationMenuLink
+            asChild
+            className={navigationMenuTriggerStyle()}
+            onClick={() => setIsOpen(false)}
+          >
+            <Link to={link.to}>{link.label}</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      ))}
     </>
   );
 
@@ -57,9 +54,11 @@ export function Header() {
           </Link>
 
           {user && (
-            <nav className="hidden md:flex items-center space-x-6">
-              <NavLinks />
-            </nav>
+            <NavigationMenu className="hidden md:flex">
+              <NavigationMenuList className="space-x-6">
+                <NavLinks />
+              </NavigationMenuList>
+            </NavigationMenu>
           )}
         </div>
 
@@ -74,9 +73,11 @@ export function Header() {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-80">
-                    <div className="flex flex-col space-y-4 mt-6">
-                      <NavLinks />
-                    </div>
+                    <NavigationMenu className="mt-6 w-full">
+                      <NavigationMenuList className="flex-col space-y-4">
+                        <NavLinks />
+                      </NavigationMenuList>
+                    </NavigationMenu>
                   </SheetContent>
                 </Sheet>
               </div>
