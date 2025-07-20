@@ -1,4 +1,11 @@
 # Welcome to your Lovable project
+[![CI](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
+
+## Project goals
+
+FACODI Digital Campus centraliza planos curriculares de cursos superiores e
+facilita a troca de conhecimento entre estudantes por meio de uma comunidade
+colaborativa alimentada com conteúdos gratuitos da internet.
 
 ## Project info
 
@@ -9,6 +16,12 @@
 - Hooks `useCurso` e `useUnidade` para obter dados individuais do Supabase.
 - Páginas `/curso/:id` e `/unidade/:id` exibindo detalhes e conteúdos.
 - Componentes `UnitCard` e `ContentAccordion` para organização de unidades e conteúdos.
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) 20 or later
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Supabase CLI](https://supabase.com/docs/guides/cli) for local development
 
 ## How can I edit this code?
 
@@ -24,7 +37,7 @@ Changes made via Lovable will be committed automatically to this repo.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Make sure you have Node.js and npm installed - we recommend using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Follow these steps:
 
@@ -36,11 +49,17 @@ git clone <YOUR_GIT_URL>
 cd <YOUR_PROJECT_NAME>
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
+
+### Useful commands
+
+- `npm run lint` – run ESLint over the project
+- `npm test` – execute unit tests with Vitest
+- `npm run build` – create a production build in `dist/`
 
 **Edit a file directly in GitHub**
 
@@ -66,7 +85,7 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## Database setup
+## Supabase quick start
 
 1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli):
    ```sh
@@ -85,9 +104,30 @@ This project is built with:
    supabase db execute < supabase/seed.sql
    ```
 
+### Environment variables
+
+Copy `.env.example` to `.env` and update the values with your Supabase project credentials:
+
+```sh
+cp .env.example .env
+# then edit .env
+```
+
+`VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are used in `src/integrations/supabase/client.ts` to connect the frontend with your Supabase instance.
+
+## Continuous integration
+
+This repository includes a GitHub Actions workflow at `.github/workflows/ci.yml` that runs linting and unit tests on every pull request.
+
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and click on Share -> Publish.
+First create a production build:
+
+```sh
+npm run build
+```
+
+The generated `dist/` directory can be deployed to any static host such as Vercel or Netlify. If you're using Lovable, open [your project](https://lovable.dev/projects/e2a4592e-1f23-4523-84f9-4a25af8f78be) and click Share -> Publish.
 
 ## Can I connect a custom domain to my Lovable project?
 
