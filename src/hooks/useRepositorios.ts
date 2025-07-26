@@ -16,6 +16,7 @@ export interface Repositorio {
   created_at: string;
   updated_at: string;
   user_id: string | null;
+  unidade_id?: string | null;
 }
 
 // Allowed file types for upload
@@ -41,7 +42,7 @@ export const useRepositorios = (unidadeId?: string) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as Repositorio[];
+      return data;
     },
   });
 };
@@ -115,7 +116,7 @@ export const useUploadMaterial = () => {
         .single();
       
       if (error) throw error;
-      return data as Repositorio;
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['repositorios'] });

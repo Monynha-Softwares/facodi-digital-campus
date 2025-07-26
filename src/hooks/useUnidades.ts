@@ -10,6 +10,28 @@ export interface UnidadeCurricular {
   ano_curricular: number;
   created_at: string;
   updated_at: string;
+  cursos_unidades?: Array<{
+    cursos: {
+      nome: string;
+      universidades: {
+        sigla: string;
+      };
+    };
+  }>;
+  unidades_conteudos?: Array<{
+    ordem: number;
+    conteudos: {
+      id: string;
+      titulo: string;
+      tipo: string;
+      conteudos_tags: Array<{
+        tags: {
+          nome: string;
+          cor: string;
+        };
+      }>;
+    };
+  }>;
 }
 
 export const useUnidades = (filters?: {

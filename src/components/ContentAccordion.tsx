@@ -1,10 +1,18 @@
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import type { Database } from "@/integrations/supabase/types";
 
 interface ContentItem {
   ordem: number;
-  conteudos: Database["public"]["Tables"]["conteudos"]["Row"] & {
+  conteudos: {
+    id: string;
+    titulo: string;
+    descricao: string | null;
+    tipo: string;
+    url: string | null;
+    duracao_minutos: number | null;
+    created_at: string;
+    updated_at: string;
     conteudos_tags?: { tags: { nome: string; cor: string } }[];
   };
 }
