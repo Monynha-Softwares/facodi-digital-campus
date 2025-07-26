@@ -16,10 +16,10 @@ export interface Comentario {
   perfis?: {
     nome: string;
     avatar_url: string | null;
-  };
+  } | null;
   unidades_curriculares?: {
     nome: string;
-  };
+  } | null;
 }
 
 export const useComentarios = (unidadeId: string, conteudoId?: string) => {
@@ -48,7 +48,7 @@ export const useComentarios = (unidadeId: string, conteudoId?: string) => {
       const { data, error } = await query;
       
       if (error) throw error;
-      return data;
+      return data as Comentario[];
     },
     enabled: !!unidadeId,
   });
@@ -76,7 +76,7 @@ export const useAllComentarios = (orderBy: 'recent' | 'popular' = 'recent') => {
         .limit(50);
       
       if (error) throw error;
-      return data;
+      return data as Comentario[];
     },
   });
 };

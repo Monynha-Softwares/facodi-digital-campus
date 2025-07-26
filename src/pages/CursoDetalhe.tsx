@@ -1,3 +1,4 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useCurso } from "@/hooks/useCursos";
 import { UnitCard } from "@/components/UnitCard";
@@ -50,12 +51,21 @@ export default function CursoDetalhe() {
 
           {curso.cursos_unidades && curso.cursos_unidades.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {curso.cursos_unidades.map((cu) => (
-                <UnitCard
-                  key={cu.unidades_curriculares.id}
-                  unidade={cu.unidades_curriculares}
-                />
-              ))}
+              {curso.cursos_unidades.map((cu) => {
+                // Transform the data to match UnidadeCurricular interface
+                const unidadeTransformed = {
+                  ...cu.unidades_curriculares,
+                  created_at: new Date().toISOString(),
+                  updated_at: new Date().toISOString()
+                };
+                
+                return (
+                  <UnitCard
+                    key={cu.unidades_curriculares.id}
+                    unidade={unidadeTransformed}
+                  />
+                );
+              })}
             </div>
           )}
         </>

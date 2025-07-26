@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -55,6 +56,7 @@ export const useUnidades = (filters?: {
             )
           ),
           unidades_conteudos (
+            ordem,
             conteudos (
               id,
               titulo,
@@ -81,7 +83,7 @@ export const useUnidades = (filters?: {
       const { data, error } = await query;
       
       if (error) throw error;
-      return data;
+      return data as UnidadeCurricular[];
     },
   });
 };
@@ -103,6 +105,8 @@ export const useUnidade = (id: string) => {
               tipo,
               url,
               duracao_minutos,
+              created_at,
+              updated_at,
               conteudos_tags (
                 tags (
                   nome,

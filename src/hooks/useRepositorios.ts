@@ -42,7 +42,7 @@ export const useRepositorios = (unidadeId?: string) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data;
+      return data as Repositorio[];
     },
   });
 };
@@ -116,7 +116,7 @@ export const useUploadMaterial = () => {
         .single();
       
       if (error) throw error;
-      return data;
+      return data as Repositorio;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['repositorios'] });
