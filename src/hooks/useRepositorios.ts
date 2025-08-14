@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { validateFileType, validateFileSize, sanitizeText } from '@/lib/security';
@@ -16,7 +15,7 @@ export interface Repositorio {
   created_at: string;
   updated_at: string;
   user_id: string | null;
-  unidade_id?: string | null;
+  unidade_id: string | null;
 }
 
 // Allowed file types for upload
@@ -29,21 +28,27 @@ const ALLOWED_FILE_TYPES = [
 
 const MAX_FILE_SIZE_KB = 50 * 1024; // 50MB
 
+const fetchRepositorios = async (unidadeId?: string): Promise<Repositorio[]> => {
+  const params: any = {
+    select: '*',
+    order: { column: 'created_at', ascending: false }
+  };
+  
+  if (unidadeId) {
+    params.eq = { unidade_id: unidadeId };
+  }
+  
+  const supabaseQuery = supabase.from('repositorios');
+  const { data, error } = await supabaseQuery.select('*').order('created_at', { ascending: false });
+  
+  if (error) throw error;
+  return (data || []) as Repositorio[];
+};
+
 export const useRepositorios = (unidadeId?: string) => {
   return useQuery({
     queryKey: ['repositorios', unidadeId],
-    queryFn: async () => {
-      let query = supabase
-        .from('repositorios')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (unidadeId) query = query.eq('unidade_id', unidadeId);
-
-      const { data, error } = await query;
-      if (error) throw error;
-      return data as Repositorio[];
-    },
+    queryFn: () => fetchRepositorios(unidadeId),
   });
 };
 

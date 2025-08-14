@@ -30,10 +30,6 @@ export const useComentarios = (unidadeId: string, conteudoId?: string) => {
         .from('comentarios')
         .select(`
           *,
-          perfis (
-            nome,
-            avatar_url
-          ),
           unidades_curriculares (
             nome
           )
@@ -62,10 +58,6 @@ export const useAllComentarios = (orderBy: 'recent' | 'popular' = 'recent') => {
         .from('comentarios')
         .select(`
           *,
-          perfis (
-            nome,
-            avatar_url
-          ),
           unidades_curriculares (
             nome
           )
