@@ -1,6 +1,8 @@
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { renderHook } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
 vi.mock('../integrations/supabase/client', () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -36,7 +38,12 @@ describe('useCursos', () => {
     );
 
     const { result } = renderHook(() => useCursos(), { wrapper });
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    
+    // Wait for the query to complete
+    await vi.waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+    
     expect(result.current.data).toEqual([]);
   });
 });

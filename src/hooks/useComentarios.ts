@@ -1,5 +1,8 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { sanitizeText, rateLimiter } from '@/lib/security';
+import { useToast } from '@/hooks/use-toast';
 
 export interface Comentario {
   id: string;
@@ -13,10 +16,10 @@ export interface Comentario {
   perfis?: {
     nome: string;
     avatar_url: string | null;
-  };
+  } | null;
   unidades_curriculares?: {
     nome: string;
-  };
+  } | null;
 }
 
 export const useComentarios = (unidadeId: string, conteudoId?: string) => {
@@ -27,10 +30,6 @@ export const useComentarios = (unidadeId: string, conteudoId?: string) => {
         .from('comentarios')
         .select(`
           *,
-          perfis (
-            nome,
-            avatar_url
-          ),
           unidades_curriculares (
             nome
           )
@@ -45,7 +44,7 @@ export const useComentarios = (unidadeId: string, conteudoId?: string) => {
       const { data, error } = await query;
       
       if (error) throw error;
-      return data;
+      return data as Comentario[];
     },
     enabled: !!unidadeId,
   });
@@ -59,10 +58,6 @@ export const useAllComentarios = (orderBy: 'recent' | 'popular' = 'recent') => {
         .from('comentarios')
         .select(`
           *,
-          perfis (
-            nome,
-            avatar_url
-          ),
           unidades_curriculares (
             nome
           )
@@ -73,13 +68,14 @@ export const useAllComentarios = (orderBy: 'recent' | 'popular' = 'recent') => {
         .limit(50);
       
       if (error) throw error;
-      return data;
+      return data as Comentario[];
     },
   });
 };
 
 export const useCriarComentario = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   
   return useMutation({
     mutationFn: async ({ 
@@ -91,13 +87,33 @@ export const useCriarComentario = () => {
       unidadeId: string; 
       conteudoId?: string; 
     }) => {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
+      // Rate limiting: max 5 comments per minute
+      const rateLimitKey = `comment_${user.id}`;
+      if (!rateLimiter.isAllowed(rateLimitKey, 5, 60000)) {
+        throw new Error('Rate limit exceeded. Please wait before posting another comment.');
+      }
+
+      // Sanitize input text
+      const sanitizedText = sanitizeText(texto);
+      if (!sanitizedText || sanitizedText.length < 3) {
+        throw new Error('Comment must be at least 3 characters long');
+      }
+      
+      if (sanitizedText.length > 2000) {
+        throw new Error('Comment is too long (max 2000 characters)');
+      }
+
       const { data, error } = await supabase
         .from('comentarios')
         .insert({
-          texto,
+          texto: sanitizedText,
           unidade_id: unidadeId,
           conteudo_id: conteudoId || null,
-          user_id: (await supabase.auth.getUser()).data.user?.id,
+          user_id: user.id,
         })
         .select()
         .single();
@@ -108,6 +124,17 @@ export const useCriarComentario = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comentarios'] });
       queryClient.invalidateQueries({ queryKey: ['all_comentarios'] });
+      toast({
+        title: "Comentário criado",
+        description: "Seu comentário foi publicado com sucesso.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Erro ao criar comentário",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 };

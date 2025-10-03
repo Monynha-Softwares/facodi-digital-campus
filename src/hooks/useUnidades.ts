@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -10,6 +11,28 @@ export interface UnidadeCurricular {
   ano_curricular: number;
   created_at: string;
   updated_at: string;
+  cursos_unidades?: Array<{
+    cursos: {
+      nome: string;
+      universidades: {
+        sigla: string;
+      };
+    };
+  }>;
+  unidades_conteudos?: Array<{
+    ordem: number;
+    conteudos: {
+      id: string;
+      titulo: string;
+      tipo: string;
+      conteudos_tags: Array<{
+        tags: {
+          nome: string;
+          cor: string;
+        };
+      }>;
+    };
+  }>;
 }
 
 export const useUnidades = (filters?: {
@@ -33,6 +56,7 @@ export const useUnidades = (filters?: {
             )
           ),
           unidades_conteudos (
+            ordem,
             conteudos (
               id,
               titulo,
@@ -59,7 +83,7 @@ export const useUnidades = (filters?: {
       const { data, error } = await query;
       
       if (error) throw error;
-      return data;
+      return data as UnidadeCurricular[];
     },
   });
 };
@@ -81,6 +105,8 @@ export const useUnidade = (id: string) => {
               tipo,
               url,
               duracao_minutos,
+              created_at,
+              updated_at,
               conteudos_tags (
                 tags (
                   nome,

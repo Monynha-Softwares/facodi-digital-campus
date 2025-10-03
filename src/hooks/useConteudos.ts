@@ -1,10 +1,18 @@
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
 
 export interface ConteudoItem {
   ordem: number | null;
-  conteudos: Database['public']['Tables']['conteudos']['Row'] & {
+  conteudos: {
+    id: string;
+    titulo: string;
+    descricao: string | null;
+    tipo: string;
+    url: string | null;
+    duracao_minutos: number | null;
+    created_at: string;
+    updated_at: string;
     conteudos_tags?: { tags: { nome: string; cor: string | null } }[];
   };
 }

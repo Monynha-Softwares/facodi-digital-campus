@@ -74,34 +74,14 @@ export const useCurso = (id: string) => {
   });
 };
 
-export const useInscricaoCurso = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation({
-    mutationFn: async ({ cursoId }: { cursoId: string }) => {
-      const { data, error } = await supabase
-        .from('usuarios_cursos')
-        .insert({
-          curso_id: cursoId,
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-        })
-        .select()
-        .single();
-      
-      if (error) throw error;
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['usuarios_cursos'] });
-      queryClient.invalidateQueries({ queryKey: ['meus_cursos'] });
-    },
-  });
-};
-
+// Hook to get user's enrolled courses
 export const useMeusCursos = () => {
   return useQuery({
     queryKey: ['meus_cursos'],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('usuarios_cursos')
         .select(`
@@ -117,11 +97,39 @@ export const useMeusCursos = () => {
             )
           )
         `)
+        .eq('user_id', user.id)
         .eq('ativo', true)
         .order('data_inscricao', { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+  });
+};
+
+export const useInscricaoCurso = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async ({ cursoId }: { cursoId: string }) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
+      const { data, error } = await supabase
+        .from('usuarios_cursos')
+        .insert({
+          curso_id: cursoId,
+          user_id: user.id,
+        })
+        .select()
+        .single();
       
       if (error) throw error;
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['usuarios_cursos'] });
+      queryClient.invalidateQueries({ queryKey: ['meus_cursos'] });
     },
   });
 };
